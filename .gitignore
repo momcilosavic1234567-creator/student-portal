@@ -1,0 +1,4 @@
+student-portal-frontend/node_modules/
+student-portal-backend/node_modules/
+student-portal-frontend/.env
+student-portal-backend/.env
