@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const navItems = [
-  { to: '/dashboard',   icon: LayoutDashboard, label: 'Dashboard'   },
+  { to: '/dashboard',   icon: LayoutDashboard, label: 'Dashboard', public: true },
   { to: '/profile',     icon: User,            label: 'My Profile'  },
   { to: '/students',    icon: Users,           label: 'Students'    },
   { to: '/ai',          icon: Bot,             label: 'AI Assistant'},
@@ -46,7 +46,7 @@ export default function Sidebar() {
 
       <nav className="sidebar-nav">
         <span className="nav-section-label">Navigation</span>
-        {navItems.map(({ to, icon: Icon, label }) => (
+        {navItems.filter(item => item.public || user).map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
             to={to}
@@ -59,21 +59,29 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <div className="user-avatar" style={{ width: 32, height: 32, fontSize: '0.75rem' }}>
-            {initials}
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {user?.email || 'student'}
+        {user ? (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+              <div className="user-avatar" style={{ width: 32, height: 32, fontSize: '0.75rem' }}>
+                {initials}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {user.email}
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--subtext0)' }}>Student</div>
+              </div>
             </div>
-            <div style={{ fontSize: '0.7rem', color: 'var(--subtext0)' }}>Student</div>
-          </div>
-        </div>
-        <button className="btn btn-danger btn-full btn-sm" onClick={handleLogout} id="logout-btn">
-          <LogOut size={14} />
-          Sign out
-        </button>
+            <button className="btn btn-danger btn-full btn-sm" onClick={handleLogout} id="logout-btn">
+              <LogOut size={14} />
+              Sign out
+            </button>
+          </>
+        ) : (
+          <button className="btn btn-primary btn-full" onClick={() => navigate('/login')}>
+            Sign in
+          </button>
+        )}
       </div>
     </aside>
   );

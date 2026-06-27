@@ -12,7 +12,7 @@ export default function Layout({ title, children }) {
         <header className="topbar">
           <h1 className="topbar-title">{title}</h1>
           <div className="topbar-right">
-            <div className="user-avatar" title={user?.email}>{initials}</div>
+            {user && <div className="user-avatar" title={user.email}>{initials}</div>}
           </div>
         </header>
         <main className="page-content animate-in">

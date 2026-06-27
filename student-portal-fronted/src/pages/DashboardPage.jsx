@@ -29,11 +29,59 @@ export default function DashboardPage() {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
+    if (!user) {
+      setLoadingProfile(false);
+      return;
+    }
     getMyProfile()
       .then(({ data }) => setProfile(data))
       .catch(() => setProfile(null))
       .finally(() => setLoadingProfile(false));
-  }, []);
+  }, [user]);
+
+  if (!user) {
+    return (
+      <Layout title="Welcome to StudentHub">
+        <div className="welcome-banner" style={{ background: 'var(--gradient-hero)', padding: '40px 30px' }}>
+          <div>
+            <h2 style={{ fontSize: '2.2rem', marginBottom: 12 }}>Your Ultimate Academic Companion 🎓</h2>
+            <p style={{ fontSize: '1.1rem', color: 'var(--subtext1)', maxWidth: 600, lineHeight: 1.6 }}>
+              Track your GPA, connect with peers, and get instant answers with our built-in AI assistant. Join StudentHub today to elevate your academic journey.
+            </p>
+          </div>
+          <Link to="/register" className="btn btn-primary" style={{ padding: '12px 24px', fontSize: '1.05rem', whiteSpace: 'nowrap' }}>
+            Get Started
+          </Link>
+        </div>
+
+        <div className="grid-2" style={{ marginTop: 24 }}>
+          <div className="card">
+            <div className="card-header">
+              <div>
+                <div className="card-title">Comprehensive Dashboard</div>
+                <div className="card-subtitle">Track your progress at a glance</div>
+              </div>
+            </div>
+            <div style={{ marginTop: 16, borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
+              <img src="/dashboard_mockup.png" alt="Dashboard Mockup" style={{ width: '100%', display: 'block', height: 'auto' }} />
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card-header">
+              <div>
+                <div className="card-title">AI Powered Assistant</div>
+                <div className="card-subtitle">Get help instantly</div>
+              </div>
+            </div>
+            <div style={{ marginTop: 16, borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
+              <img src="/ai_mockup.png" alt="AI Assistant Mockup" style={{ width: '100%', display: 'block', height: 'auto' }} />
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   const firstName = user?.email?.split('@')[0] || 'student';
   const displayName = firstName.charAt(0).toUpperCase() + firstName.slice(1);

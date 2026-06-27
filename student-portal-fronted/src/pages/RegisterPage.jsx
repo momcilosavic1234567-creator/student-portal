@@ -73,7 +73,7 @@ export default function RegisterPage() {
                   className="form-input"
                   type="email"
                   name="email"
-                  placeholder="you@university.edu"
+                  placeholder="you@example.com"
                   value={form.email}
                   onChange={handleChange}
                   required
